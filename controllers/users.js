@@ -18,7 +18,14 @@ const getUserById = async (req, res) => {
       res.status(200).send(user);
     }
   } catch (err) {
-    res.status(500).send({ message: 'Ошибка в работе сервера' });
+    if (err.name === 'CastError') {
+      res.status(400).send({
+        message: 'Введены некорректные данные',
+        ...err,
+      });
+    } else {
+      res.status(500).send({ message: 'Ошибка в работе сервера' });
+    }
   }
 };
 
