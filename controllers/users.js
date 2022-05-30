@@ -36,7 +36,7 @@ const createUser = async (req, res) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
-        message: `Введены некорректные данные: ${err.errors.name.message}`,
+        message: `Введены некорректные данные: ${Object.values(err.errors).map((error) => error.message).join(', ')}`,
       });
     } else {
       res.status(500).send({ message: 'Ошибка в работе сервера' });
@@ -60,7 +60,7 @@ const updateProfile = async (req, res) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
-        message: `Введены некорректные данные: ${err.errors.name.message}`,
+        message: `Введены некорректные данные: ${Object.values(err.errors).map((error) => error.message).join(', ')}`,
       });
     } else {
       res.status(500).send({ message: 'Ошибка в работе сервера' });
@@ -84,7 +84,7 @@ const updateAvatar = async (req, res) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
-        message: `Введены некорректные данные: ${err.errors.name.message}`,
+        message: `Введены некорректные данные: ${Object.values(err.errors).map((error) => error.message).join(', ')}`,
       });
     } else {
       res.status(500).send({ message: 'Ошибка в работе сервера' });
