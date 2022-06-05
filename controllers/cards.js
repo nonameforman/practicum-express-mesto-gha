@@ -28,16 +28,18 @@ const postCard = async (req, res, next) => {
 };
 
 const deleteCard = async (req, res, next) => {
+  const { cardId } = req.params;
   try {
-    const deletedCard = await Card.findByIdAndRemove(req.params.cardId);
-    if (!deletedCard) {
+    const card = await Card.findById(cardId);
+    if (!card) {
       next(new NotFoundError('Такой карточки нет'));
       return;
     }
-    if (!(String(deletedCard.owner) === req.user._id)) {
+    if (!(String(card.owner) === req.user._id)) {
       next(new ForbiddenError('У вас нет доступа'));
       return;
     }
+    const deletedCard = await Card.findByIdAndDelete(card);
     res.status(200).send(deletedCard);
   } catch (err) {
     if (err.name === 'CastError') {
